@@ -2,6 +2,7 @@
 #define MAPPARAMS_H
 
 #include <QString>
+#include <QSize>
 
 namespace MapLayers {
     enum Enum {
@@ -14,15 +15,16 @@ namespace MapLayers {
 class MapParams
 {
 public:
-    MapParams(double lat, double lon, int sizeX, int sizeY, int zoom, MapLayers::Enum layers);
+    MapParams(double lat, double lon, const QSize &size, int zoom, MapLayers::Enum layers);
+
+    void setSize(const QSize &newSize);
 
     QString toUrl() const;
 
 private:
     double lat;
     double lon;
-    int sizeX;
-    int sizeY;
+    QSize size;
     int zoom;
     MapLayers::Enum layers;
 
