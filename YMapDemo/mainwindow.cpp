@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QUrl>
+#include <MapParams.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -14,10 +15,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(&mapLoader, SIGNAL(imageRetrieved(const QByteArray&)),
             ui->mapWidget, SLOT(imageDownloadSuccess(const QByteArray&)));
 
-    QUrl url("http://static-maps.yandex.ru/1.x/?ll=37.620070,55.753630&"
-            "size=450,450&z=13&l=map&pt=37.620070,55.753630,pmwtm1~37.64,55.76363,"
-            "pmwtm99");
-    mapLoader.startRequest(url);
+    mapLoader.startRequest(MapParams(37.620070, 55.753630, 450, 450, 13, MapLayers::Map).toUrl());
 
 }
 

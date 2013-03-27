@@ -1,5 +1,5 @@
-#ifndef IMAGELOADER_H
-#define IMAGELOADER_H
+#ifndef MAPIMAGELOADER_H
+#define MAPIMAGELOADER_H
 
 #include <QNetworkAccessManager>
 
@@ -26,4 +26,4 @@ private slots:
 
 };
 
-#endif // IMAGELOADER_H
+#endif // MAPIMAGELOADER_H

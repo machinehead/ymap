@@ -17,10 +17,12 @@ INCLUDEPATH += widget YMapStaticAPI
 SOURCES += main.cpp\
         mainwindow.cpp \
     widget/MapWidget.cpp \
-    YMapStaticAPI/MapImageLoader.cpp
+    YMapStaticAPI/MapImageLoader.cpp \
+    YMapStaticAPI/MapParams.cpp
 
 HEADERS  += mainwindow.h \
     widget/MapWidget.h \
-    YMapStaticAPI/MapImageLoader.h
+    YMapStaticAPI/MapImageLoader.h \
+    YMapStaticAPI/MapParams.h
 
 FORMS    += mainwindow.ui
