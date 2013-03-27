@@ -12,13 +12,15 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += network
 TARGET = YMapDemo
 TEMPLATE = app
 
-INCLUDEPATH += widget
+INCLUDEPATH += widget YMapStaticAPI
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    widget/MapWidget.cpp
+    widget/MapWidget.cpp \
+    YMapStaticAPI/MapImageLoader.cpp
 
 HEADERS  += mainwindow.h \
-    widget/MapWidget.h
+    widget/MapWidget.h \
+    YMapStaticAPI/MapImageLoader.h
 
 FORMS    += mainwindow.ui

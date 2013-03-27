@@ -1,9 +1,7 @@
 #ifndef MAPWIDGET_H
 #define MAPWIDGET_H
 
-#include <QNetworkAccessManager>
 #include <QWidget>
-#include <QUrl>
 
 class MapWidget : public QWidget
 {
@@ -15,20 +13,14 @@ public:
 signals:
     
 public slots:
+    void imageDownloadError(const QString &description);
+    void imageDownloadSuccess(const QByteArray &imageData);
 
 protected:
     virtual void paintEvent(QPaintEvent *event);
 
-private slots:
-    void httpFinished();
-
 private:
     QPixmap mapImage;
-
-    QNetworkAccessManager qnam;
-    QNetworkReply *httpReply;
-
-    void startRequest(QUrl url);
 
 };
 
