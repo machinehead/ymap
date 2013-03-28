@@ -1,7 +1,7 @@
 #ifndef MAPIMAGELOADER_H
 #define MAPIMAGELOADER_H
 
-// Описание: Объект класса осуществляет загрузку одного изображения (тайла).
+// Объект класса осуществляет загрузку одного изображения (тайла).
 
 #include <QNetworkAccessManager>
 #include "MapParams.h"

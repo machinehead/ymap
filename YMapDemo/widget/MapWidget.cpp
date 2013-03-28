@@ -39,7 +39,7 @@ void MapWidget::requestImage()
 
 void MapWidget::resizeEvent(QResizeEvent *)
 {
-    mapParams.setSize(size());
+    mapParams.setSize(SizeWorldPixel(size()));
     requestImage();
 }
 
@@ -70,7 +70,7 @@ void MapWidget::dragMap(const QPoint &pos)
     // Вектор перемещения из начальной точки в конечную противоположен необходимому перемещению
     // центра карты.
     QPoint delta(dragStartPos - pos);
-    mapParams.movePixels(QSize(delta.x(), delta.y()));
+    mapParams.movePixels(SizeWorldPixel(delta.x(), delta.y()));
     dragStartPos = pos;
     requestImage();
 }

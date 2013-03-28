@@ -10,7 +10,7 @@ TileStorage::TileStorage(QObject *parent) :
 void TileStorage::mapImageRequest(const MapParams &params)
 {
     currentMapParams = params;
-    currentResult = QPixmap( currentMapParams.getSize() );
+    currentResult = QPixmap( currentMapParams.getSize().asQSize() );
 
     MapImageLoader *loader = new MapImageLoader(params, &qnam, this);
     connect(loader, SIGNAL(finished(const MapImageLoader*)),

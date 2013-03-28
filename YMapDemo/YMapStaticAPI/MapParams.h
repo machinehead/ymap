@@ -2,8 +2,7 @@
 #define MAPPARAMS_H
 
 #include <QString>
-#include <QSize>
-#include <QPoint>
+#include "MapCoords.h"
 
 namespace MapLayers {
     enum Enum {
@@ -18,14 +17,14 @@ class MapParams
 public:
     MapParams(double lon, double lat, const QSize &size, int zoom, MapLayers::Enum layers);
 
-    QSize getSize() const { return size; }
-    void setSize(const QSize &_size);
+    SizeWorldPixel getSize() const { return size; }
+    void setSize(const SizeWorldPixel &_size);
 
     int getZoom() const { return zoom; }
     void setZoom(int _zoom);
 
     // Изменить координаты центра карты на delta (в экранной декартовой системе координат) с учётом текущего масштаба.
-    void movePixels(const QSize &delta);
+    void movePixels(const SizeWorldPixel &delta);
 
     // Получить URL запроса к Static API, по которому можно загрузить изображение карты по текущим параметрам.
     QString toUrl() const;
@@ -35,19 +34,10 @@ public:
     static const MapParams empty();
 
 private:
-    QPointF centerLonLat;
-    QSize size;
+    PointLonLat centerPoint;
+    SizeWorldPixel size;
     int zoom;
     MapLayers::Enum layers;
-
-    double lonPixelFactor() const;
-    double latPixelFactor() const;
-
-    QPoint toWorldPixel(const QPointF &lonLat) const;
-    QPointF toWorldLonLat(const QPoint &pixel) const;
-
-    QSize toWorldPixel(const QSizeF &lonLat) const;
-    QSizeF toWorldLonLat(const QSize &pixel) const;
 
 };
 
