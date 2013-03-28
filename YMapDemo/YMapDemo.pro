@@ -18,11 +18,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     widget/MapWidget.cpp \
     YMapStaticAPI/MapImageLoader.cpp \
-    YMapStaticAPI/MapParams.cpp
+    YMapStaticAPI/MapParams.cpp \
+    YMapStaticAPI/TileStorage.cpp
 
 HEADERS  += mainwindow.h \
     widget/MapWidget.h \
     YMapStaticAPI/MapImageLoader.h \
-    YMapStaticAPI/MapParams.h
+    YMapStaticAPI/MapParams.h \
+    YMapStaticAPI/TileStorage.h
 
 FORMS    += mainwindow.ui
