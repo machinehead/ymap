@@ -18,9 +18,9 @@ void MapWidget::imageDownloadError(const QString &description)
     QMessageBox::information(this, tr("HTTP"), description);
 }
 
-void MapWidget::imageDownloadSuccess(const QPixmap &image)
+void MapWidget::mapImageUpdate(const QPixmap &image)
 {
-    mapImage = image;
+    mapImage = image.copy();
     update();
 }
 
@@ -64,7 +64,8 @@ void MapWidget::dragMap(const QPoint &pos)
 
     // Вектор перемещения из начальной точки в конечную противоположен необходимому перемещению
     // центра карты.
-    mapParams.movePixels(dragStartPos - pos);
+    QPoint delta(dragStartPos - pos);
+    mapParams.movePixels(QSize(delta.x(), delta.y()));
     dragStartPos = pos;
     emit mapImageRequest(mapParams);
 }
