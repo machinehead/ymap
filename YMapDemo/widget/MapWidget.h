@@ -16,7 +16,7 @@ signals:
 
 public slots:
     void imageDownloadError(const QString &description);
-    void imageDownloadSuccess(const QByteArray &imageData);
+    void imageDownloadSuccess(const QPixmap &image);
 
 protected:
     virtual void paintEvent(QPaintEvent *event);

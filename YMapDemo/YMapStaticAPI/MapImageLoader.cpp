@@ -2,6 +2,7 @@
 
 #include <QtNetwork>
 #include "MapParams.h"
+#include <QPixmap>
 
 MapImageLoader::MapImageLoader(QObject *parent) :
     QObject(parent),
@@ -34,7 +35,9 @@ void MapImageLoader::httpFinished()
                        .arg(httpReply->errorString()));
     } else {
         QByteArray imageData = httpReply->readAll();
-        emit imageRetrieved(imageData);
+        QPixmap image;
+        image.loadFromData(imageData);
+        emit imageRetrieved(image);
     }
 
     httpReply->deleteLater();

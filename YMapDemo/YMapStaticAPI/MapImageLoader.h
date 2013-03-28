@@ -13,7 +13,7 @@ public:
 
 signals:
     void error(const QString &description);
-    void imageRetrieved(const QByteArray &imageData);
+    void imageRetrieved(const QPixmap &image);
 
 public slots:
     void mapImageRequest(const MapParams &params);

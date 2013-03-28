@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "MapImageLoader.h"
+#include "TileStorage.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,7 @@ private:
     Ui::MainWindow *ui;
 
     MapImageLoader mapLoader;
+    TileStorage tileStorage;
 };
 
 #endif // MAINWINDOW_H

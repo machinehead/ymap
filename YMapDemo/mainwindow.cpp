@@ -11,10 +11,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     connect(&mapLoader, SIGNAL(error(const QString&)),
             ui->mapWidget, SLOT(imageDownloadError(const QString&)));
-    connect(&mapLoader, SIGNAL(imageRetrieved(const QByteArray&)),
-            ui->mapWidget, SLOT(imageDownloadSuccess(const QByteArray&)));
+    connect(&mapLoader, SIGNAL(imageRetrieved(const QPixmap&)),
+            ui->mapWidget, SLOT(imageDownloadSuccess(const QPixmap&)));
+
     connect(ui->mapWidget, SIGNAL(mapImageRequest(const MapParams &)),
             &mapLoader, SLOT(mapImageRequest(const MapParams &)));
+
+//    connect(ui->mapWidget, SIGNAL(mapImageRequest(const MapParams &)),
+//            &tileStorage, SLOT(mapImageRequest(const MapParams &)));
 }
 
 MainWindow::~MainWindow()

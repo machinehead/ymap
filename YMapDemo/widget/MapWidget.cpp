@@ -18,9 +18,9 @@ void MapWidget::imageDownloadError(const QString &description)
     QMessageBox::information(this, tr("HTTP"), description);
 }
 
-void MapWidget::imageDownloadSuccess(const QByteArray &imageData)
+void MapWidget::imageDownloadSuccess(const QPixmap &image)
 {
-    mapImage.loadFromData(imageData);
+    mapImage = image;
     update();
 }
 
