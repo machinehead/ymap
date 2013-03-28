@@ -1,13 +1,24 @@
 #include "TileStorage.h"
+#include "MapImageLoader.h"
 
 TileStorage::TileStorage(QObject *parent) :
     QObject(parent),
-    currentRequest(MapParams::empty())
+    currentMapParams(MapParams::empty())
 {
 }
 
 void TileStorage::mapImageRequest(const MapParams &params)
 {
-    currentRequest = params;
-    currentResult = QPixmap( currentRequest.getSize() );
+    currentMapParams = params;
+    currentResult = QPixmap( currentMapParams.getSize() );
+
+    MapImageLoader *loader = new MapImageLoader(params, &qnam, this);
+    connect(loader, SIGNAL(finished(const MapImageLoader*)),
+            this, SLOT(tileRequestCompleted(const MapImageLoader*)));
+    loader->run();
+}
+
+void TileStorage::tileRequestCompleted(const MapImageLoader *loader)
+{
+    emit imageRetrieved(loader->getResult());
 }

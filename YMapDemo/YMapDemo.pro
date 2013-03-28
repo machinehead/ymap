@@ -25,6 +25,7 @@ HEADERS  += mainwindow.h \
     widget/MapWidget.h \
     YMapStaticAPI/MapImageLoader.h \
     YMapStaticAPI/MapParams.h \
-    YMapStaticAPI/TileStorage.h
+    YMapStaticAPI/TileStorage.h \
+    YMapStaticAPI/ApiConf.h
 
 FORMS    += mainwindow.ui

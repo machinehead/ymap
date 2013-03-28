@@ -20,7 +20,7 @@ void MapWidget::imageDownloadError(const QString &description)
 
 void MapWidget::mapImageUpdate(const QPixmap &image)
 {
-    mapImage = image.copy();
+    mapImage = image;
     update();
 }
 
@@ -32,10 +32,15 @@ void MapWidget::paintEvent(QPaintEvent *)
     painter.end();
 }
 
+void MapWidget::requestImage()
+{
+    emit mapImageRequest(mapParams);
+}
+
 void MapWidget::resizeEvent(QResizeEvent *)
 {
     mapParams.setSize(size());
-    emit mapImageRequest(mapParams);
+    requestImage();
 }
 
 void MapWidget::wheelEvent(QWheelEvent *event)
@@ -44,7 +49,7 @@ void MapWidget::wheelEvent(QWheelEvent *event)
 
     int numSteps = numDegrees / 15;
     mapParams.setZoom( std::max( std::min( mapParams.getZoom() + numSteps, 17 ), 0 ) );
-    emit mapImageRequest(mapParams);
+    requestImage();
 
     event->accept();
 }
@@ -67,7 +72,7 @@ void MapWidget::dragMap(const QPoint &pos)
     QPoint delta(dragStartPos - pos);
     mapParams.movePixels(QSize(delta.x(), delta.y()));
     dragStartPos = pos;
-    emit mapImageRequest(mapParams);
+    requestImage();
 }
 
 void MapWidget::mouseMoveEvent(QMouseEvent *event)

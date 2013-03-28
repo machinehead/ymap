@@ -1,28 +1,48 @@
 #ifndef MAPIMAGELOADER_H
 #define MAPIMAGELOADER_H
 
+// Описание: Объект класса осуществляет загрузку одного изображения (тайла).
+
 #include <QNetworkAccessManager>
+#include "MapParams.h"
+#include <QPixmap>
 
 class MapParams;
 
 class MapImageLoader : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit MapImageLoader(QObject *parent = 0);
+    // params - параметры карты, которую нужно загрузить
+    // qnam - разделяемый объектами MapImageLoader объект QNetworkAccessManager
+    explicit MapImageLoader(const MapParams &params, QNetworkAccessManager *qnam, QObject *parent = 0);
+
+    // Запуск запроса специально вынесен из конструктора, дабы можно было успеть привязать сигналы.
+    void run();
+
+    // Получить картинку. Имеет смысл вызывать только в обработчике сигнала finished().
+    QPixmap getResult() const;
 
 signals:
-    void error(const QString &description);
-    void imageRetrieved(const QPixmap &image);
-
-public slots:
-    void mapImageRequest(const MapParams &params);
+    // Сообщение об ошибке.
+    void error(const MapImageLoader *loader);
+    // Получено изображение.
+    void finished(const MapImageLoader *loader);
 
 private:
-    QNetworkAccessManager qnam;
+    MapParams params;
+
+    // qnam - разделяемый объектами MapImageLoader объект QNetworkAccessManager.
+    // Невладеющий указатель.
+    QNetworkAccessManager *qnam;
+    // Http-запрос текущего объекта.
     QNetworkReply *httpReply;
 
-    void startRequest(QUrl url);
+    // Сообщение об ошибке, если запрос закончился ошибкой.
+    QString errorMessage;
+    // Результат запроса, если запрос отработал успешно.
+    QPixmap resultImage;
 
 private slots:
     void httpFinished();

@@ -11,6 +11,7 @@ class MapWidget : public QWidget
 public:
     explicit MapWidget(QWidget *parent = 0);
     
+    void requestImage();
 signals:
     void mapImageRequest(const MapParams &params);
 

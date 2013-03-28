@@ -4,6 +4,10 @@
 #include <QObject>
 #include "MapParams.h"
 #include <QPixmap>
+#include <QSet>
+#include <QNetworkAccessManager>
+
+class MapImageLoader;
 
 class TileStorage : public QObject
 {
@@ -17,9 +21,15 @@ signals:
 public slots:
     void mapImageRequest(const MapParams &params);
 
+    void tileRequestCompleted(const MapImageLoader *loader);
+
 private:
-    MapParams currentRequest;
+    MapParams currentMapParams;
     QPixmap currentResult;
+
+    QNetworkAccessManager qnam;
+    QSet<MapImageLoader*> pendingRequests;
+
 };
 
 #endif // TILESTORAGE_H

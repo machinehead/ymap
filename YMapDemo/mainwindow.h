@@ -20,7 +20,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
-    MapImageLoader mapLoader;
+//    MapImageLoader mapLoader;
     TileStorage tileStorage;
 };
 

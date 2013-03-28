@@ -4,40 +4,36 @@
 #include "MapParams.h"
 #include <QPixmap>
 
-MapImageLoader::MapImageLoader(QObject *parent) :
+MapImageLoader::MapImageLoader(const MapParams &_params, QNetworkAccessManager *_qnam, QObject *parent) :
     QObject(parent),
+    params(_params),
+    qnam(_qnam),
     httpReply(0)
 {
+    Q_ASSERT( qnam != 0 );
 }
 
-void MapImageLoader::mapImageRequest(const MapParams &params)
+void MapImageLoader::run()
 {
-    startRequest(params.toUrl());
+    httpReply = qnam->get(QNetworkRequest(params.toUrl()));
+
+    connect(httpReply, SIGNAL(finished()), this, SLOT(httpFinished()));
 }
 
-void MapImageLoader::startRequest(QUrl url)
+QPixmap MapImageLoader::getResult() const
 {
-    if(httpReply != 0) {
-        disconnect(httpReply, SIGNAL(finished()), this, SLOT(httpFinished()));
-        httpReply->deleteLater();
-        httpReply = 0;
-    }
-
-    httpReply = qnam.get(QNetworkRequest(url));
-    connect(httpReply, SIGNAL(finished()),
-            this, SLOT(httpFinished()));
+    return resultImage;
 }
 
 void MapImageLoader::httpFinished()
 {
     if (httpReply->error()) {
-        emit error(tr("Download failed: %1.")
-                       .arg(httpReply->errorString()));
+        errorMessage = tr("Download failed: %1.").arg(httpReply->errorString());
+        emit error(this);
     } else {
         QByteArray imageData = httpReply->readAll();
-        QPixmap image;
-        image.loadFromData(imageData);
-        emit imageRetrieved(image);
+        resultImage.loadFromData(imageData);
+        emit finished(this);
     }
 
     httpReply->deleteLater();
