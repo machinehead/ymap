@@ -21,10 +21,19 @@ public slots:
 protected:
     virtual void paintEvent(QPaintEvent *event);
     virtual void resizeEvent(QResizeEvent * event);
+    virtual void wheelEvent(QWheelEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
 
 private:
     QPixmap mapImage;
     MapParams mapParams;
+
+    bool isDragging;
+    QPoint dragStartPos;
+
+    void dragMap(const QPoint &pos);
 
 };
 

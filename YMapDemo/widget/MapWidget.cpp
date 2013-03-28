@@ -2,10 +2,14 @@
 
 #include <QPainter>
 #include <QMessageBox>
+#include <QWheelEvent>
+
+#include <QDebug>
 
 MapWidget::MapWidget(QWidget *parent) :
     QWidget(parent),
-    mapParams(37.620070, 55.753630, QSize(450, 450), 13, MapLayers::Map)
+    mapParams(37.620070, 55.753630, QSize(450, 450), 13, MapLayers::Map),
+    isDragging(false)
 {
 }
 
@@ -34,3 +38,50 @@ void MapWidget::resizeEvent(QResizeEvent *)
     emit mapImageRequest(mapParams);
 }
 
+void MapWidget::wheelEvent(QWheelEvent *event)
+{
+    int numDegrees = event->angleDelta().y() / 8;
+
+    int numSteps = numDegrees / 15;
+    mapParams.setZoom( std::max( std::min( mapParams.getZoom() + numSteps, 17 ), 0 ) );
+    emit mapImageRequest(mapParams);
+
+    event->accept();
+}
+
+void MapWidget::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton) {
+        isDragging = true;
+        dragStartPos = event->pos();
+    }
+}
+
+// Подвинуть карту следом за перемещением мыши из dragStartPos в pos.
+void MapWidget::dragMap(const QPoint &pos)
+{
+    Q_ASSERT_X(isDragging, "dragMap", "must be dragging");
+
+    // Вектор перемещения из начальной точки в конечную противоположен необходимому перемещению
+    // центра карты.
+    mapParams.movePixels(dragStartPos - pos);
+    dragStartPos = pos;
+    emit mapImageRequest(mapParams);
+}
+
+void MapWidget::mouseMoveEvent(QMouseEvent *event)
+{
+    if(isDragging) {
+        dragMap(event->pos());
+    }
+}
+
+void MapWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    if(event->button() == Qt::LeftButton) {
+        if(isDragging) {
+            dragMap(event->pos());
+        }
+        isDragging = false;
+    }
+}
