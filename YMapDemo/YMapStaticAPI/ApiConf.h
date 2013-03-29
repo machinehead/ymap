@@ -10,6 +10,8 @@
 
 // Степень двойки, определяющая размер тайла в пикселях.
 #define APICONF_TILE_SIZE_PWR (8)
+// Размер тайла в пикселях.
+#define APICONF_TILE_SIZE_PX (1<<APICONF_TILE_SIZE_PWR)
 
 #define APICONF_URL_BASE ("http://static-maps.yandex.ru/1.x/?%1")
 

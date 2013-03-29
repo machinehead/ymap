@@ -9,9 +9,6 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-//    connect(&mapLoader, SIGNAL(error(const QString&)),
-//            ui->mapWidget, SLOT(imageDownloadError(const QString&)));
-
     connect(ui->mapWidget, SIGNAL(mapImageRequest(const MapParams &)),
             &tileStorage, SLOT(mapImageRequest(const MapParams &)));
 

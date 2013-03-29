@@ -1,10 +1,12 @@
 #ifndef TILESTORAGE_H
 #define TILESTORAGE_H
 
+// Объект TileStorage организует хранение в кеше тайлов карты и формирование изображения текущей части карты.
+
 #include <QObject>
 #include "MapParams.h"
 #include <QPixmap>
-#include <QSet>
+#include <QHash>
 #include <QNetworkAccessManager>
 
 class MapImageLoader;
@@ -21,15 +23,23 @@ signals:
 public slots:
     void mapImageRequest(const MapParams &params);
 
-    void tileRequestCompleted(const MapImageLoader *loader);
+    void tileRequestCompleted(MapImageLoader *loader);
 
 private:
     MapParams currentMapParams;
     QPixmap currentResult;
 
     QNetworkAccessManager qnam;
-    QSet<MapImageLoader*> pendingRequests;
+    QHash<PointWorldPixel, MapImageLoader*> pendingRequests;
 
+    PointWorldPixel enclosingTileTopLeft(const PointWorldPixel &point) const;
+
+    void changeMapParams(const MapParams &params);
+    void requestTile(int x, int y);
+
+    void drawTile(int x, int y, const QPixmap &tile);
+
+    static QString cacheKey(int zoom, int topLeftX, int topLeftY);
 };
 
 #endif // TILESTORAGE_H

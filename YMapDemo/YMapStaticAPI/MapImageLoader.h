@@ -21,6 +21,8 @@ public:
     // Запуск запроса специально вынесен из конструктора, дабы можно было успеть привязать сигналы.
     void run();
 
+    // Получить параметры запроса.
+    MapParams getParams() const { return params; }
     // Получить картинку. Имеет смысл вызывать только в обработчике сигнала finished().
     QPixmap getResult() const;
 
@@ -28,7 +30,7 @@ signals:
     // Сообщение об ошибке.
     void error(const MapImageLoader *loader);
     // Получено изображение.
-    void finished(const MapImageLoader *loader);
+    void finished(MapImageLoader *loader);
 
 private:
     MapParams params;

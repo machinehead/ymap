@@ -1,6 +1,8 @@
 #ifndef MAPWIDGET_H
 #define MAPWIDGET_H
 
+// Виджет, отображающий карту.
+
 #include <QWidget>
 #include "MapParams.h"
 
@@ -13,10 +15,14 @@ public:
     
     void requestImage();
 signals:
+    // Виджет отправляет этот сигнал, когда изменились параметры изображения и нужно получить новое.
     void mapImageRequest(const MapParams &params);
 
 public slots:
+    // Сюда можно сообщать об ошибках при загрузке изображений. Сейчас это отключено в связи с переходом на кеш тайлов.
     void imageDownloadError(const QString &description);
+    // Уведомление виджета о том, что получен новый вариант изображения. Имеет смысл добавить сюда прямоугольник,
+    // который нужно обновить, и обновлять отображение только его.
     void mapImageUpdate(const QPixmap &image);
 
 protected:

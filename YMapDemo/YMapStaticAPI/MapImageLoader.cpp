@@ -15,7 +15,9 @@ MapImageLoader::MapImageLoader(const MapParams &_params, QNetworkAccessManager *
 
 void MapImageLoader::run()
 {
-    httpReply = qnam->get(QNetworkRequest(params.toUrl()));
+    QString url = params.toUrl();
+    qDebug() << url;
+    httpReply = qnam->get(QNetworkRequest(url));
 
     connect(httpReply, SIGNAL(finished()), this, SLOT(httpFinished()));
 }

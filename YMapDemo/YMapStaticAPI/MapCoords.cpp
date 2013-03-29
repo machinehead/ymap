@@ -12,12 +12,14 @@ const int AXIS_DIRECTION[] = { 1, -1 };
 
 static double lonPixelFactor(int zoom)
 {
-    return 360. / pow(2.,zoom + APICONF_TILE_SIZE_PWR);
+    double result = 360. / pow(2.,zoom + APICONF_TILE_SIZE_PWR);
+    return result;
 }
 
 static double latPixelFactor(int zoom)
 {
-    return 180. / pow(2.,zoom + APICONF_TILE_SIZE_PWR);
+    double result = 180. / pow(2.,zoom + APICONF_TILE_SIZE_PWR);
+    return result;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -63,6 +65,11 @@ SizeLonLat SizeWorldPixel::toLonLat(int zoom) const
 QSize SizeWorldPixel::asQSize() const
 {
     return *this;
+}
+
+SizeWorldPixel SizeWorldPixel::operator/(int div) const
+{
+    return SizeWorldPixel(*(QSize*)this / div);
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -114,9 +121,24 @@ PointWorldPixel PointWorldPixel::operator+(const SizeWorldPixel &s) const
     return PointWorldPixel( x() + s.width(), y() + s.height() );
 }
 
+PointWorldPixel PointWorldPixel::operator-(const SizeWorldPixel &s) const
+{
+    return PointWorldPixel( x() - s.width(), y() - s.height() );
+}
+
 SizeWorldPixel PointWorldPixel::operator-(const PointWorldPixel &other) const
 {
     return SizeWorldPixel( x() - other.x(), y() - other.y() );
+}
+
+bool PointWorldPixel::operator==(const PointWorldPixel &other) const
+{
+    return x() == other.x() && y() == other.y();
+}
+
+uint qHash(const PointWorldPixel &key)
+{
+    return key.x() ^ (key.y() << 5);
 }
 
 ///////////////////////////////////////////////////////////////////

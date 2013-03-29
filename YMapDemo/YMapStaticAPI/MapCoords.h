@@ -52,6 +52,8 @@ public:
 
     QSize asQSize() const;
 
+    SizeWorldPixel operator/(int div) const;
+
 };
 
 ///////////////////////////////////////////////////////////////////
@@ -88,9 +90,13 @@ public:
     PointLonLat toLonLat(int zoom) const;
 
     PointWorldPixel operator+(const SizeWorldPixel &s) const;
+    PointWorldPixel operator-(const SizeWorldPixel &s) const;
     SizeWorldPixel operator-(const PointWorldPixel &other) const;
 
+    bool operator==(const PointWorldPixel &other) const;
 };
+
+uint qHash(const PointWorldPixel &key);
 
 ///////////////////////////////////////////////////////////////////
 

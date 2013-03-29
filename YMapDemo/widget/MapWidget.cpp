@@ -8,7 +8,7 @@
 
 MapWidget::MapWidget(QWidget *parent) :
     QWidget(parent),
-    mapParams(37.620070, 55.753630, QSize(450, 450), 13, MapLayers::Map),
+    mapParams(PointLonLat(37.620070, 55.753630), SizeWorldPixel(450, 450), 13, MapLayers::Map),
     isDragging(false)
 {
 }
