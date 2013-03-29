@@ -13,6 +13,7 @@ class MapWidget : public QWidget
 public:
     explicit MapWidget(QWidget *parent = 0);
     
+    // Запуск отображения карты в виджете.
     void requestImage();
 signals:
     // Виджет отправляет этот сигнал, когда изменились параметры изображения и нужно получить новое.

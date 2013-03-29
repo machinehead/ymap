@@ -21,9 +21,16 @@ void TileStorage::drawTile(int x, int y, const QPixmap &tile)
 
 void TileStorage::changeMapParams(const MapParams &params)
 {
+    if( params.getSize() == currentMapParams.getSize() && params.getZoom() == currentMapParams.getZoom() ) {
+        // Если карту только подвинули, будем двигать текущее изображение.
+        QPainter painter(&currentResult);
+        SizeWorldPixel offset = params.getTopLeft() - currentMapParams.getTopLeft();
+        painter.drawPixmap(offset.width(), offset.height(), currentResult);
+    } else {
+        // Здесь можно реализовать масштабирование currentResult, чтобы сгладить переходы карты.
+        currentResult = QPixmap( currentMapParams.getSize().asQSize() );
+    }
     currentMapParams = params;
-    // Здесь можно реализовать масштабирование и сдвиг currentResult, чтобы сгладить переходы карты.
-    currentResult = QPixmap( currentMapParams.getSize().asQSize() );
 }
 
 void TileStorage::requestTile(int x, int y)

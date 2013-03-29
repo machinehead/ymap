@@ -72,6 +72,11 @@ SizeWorldPixel SizeWorldPixel::operator/(int div) const
     return SizeWorldPixel(*(QSize*)this / div);
 }
 
+bool SizeWorldPixel::operator ==(const SizeWorldPixel &other) const
+{
+    return *(QSize*)this == (const QSize &) other;
+}
+
 ///////////////////////////////////////////////////////////////////
 // PointLonLat
 

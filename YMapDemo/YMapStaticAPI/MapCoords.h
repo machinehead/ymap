@@ -54,6 +54,8 @@ public:
 
     SizeWorldPixel operator/(int div) const;
 
+    bool operator==(const SizeWorldPixel &other) const;
+
 };
 
 ///////////////////////////////////////////////////////////////////
